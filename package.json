@@ -1,0 +1,17 @@
+{
+    "name": "my-app",
+    "version": "0.1.0",
+    "type": "module",
+    "scripts": {
+        "dev": "tradjs serve",
+        "build": "tradjs build",
+        "start": "tradjs serve"
+    },
+    "dependencies": {
+        "tradjs": "latest"
+    },
+    "devDependencies": {
+        "@tailwindcss/vite": "^4.0.0",
+        "tailwindcss": "^4.0.0"
+    }
+}
