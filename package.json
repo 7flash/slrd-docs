@@ -1,17 +1,38 @@
 {
-    "name": "my-app",
-    "version": "0.1.0",
-    "type": "module",
-    "scripts": {
-        "dev": "tradjs serve",
-        "build": "tradjs build",
-        "start": "tradjs serve"
-    },
-    "dependencies": {
-        "tradjs": "latest"
-    },
-    "devDependencies": {
-        "@tailwindcss/vite": "^4.0.0",
-        "tailwindcss": "^4.0.0"
-    }
+  "name": "solard-monorepo",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "bun run --filter '*' build",
+    "typecheck": "bun run --filter '*' typecheck",
+    "test": "bun run --filter '*' test",
+    "cli": "bun run packages/cli/bin/solard.ts",
+    "docs": "bun apps/docs/server.mjs",
+    "pub:bump": "bun run scripts/release-version.mjs patch",
+    "pub:verify": "bun run scripts/verify-release.mjs",
+    "pub:lock": "bun install --lockfile-only",
+    "pub:core": "cd packages/core && bun publish --access public --no-git-checks",
+    "pub:sdk": "cd packages/sdk && bun publish --access public --no-git-checks",
+    "pub:cli": "cd packages/cli && bun publish --access public --no-git-checks",
+    "pub:solard-cli": "cd packages/solard-cli && bun publish --access public --no-git-checks",
+    "pub:publish": "bun run pub:core && bun run pub:sdk && bun run pub:cli && bun run pub:solard-cli",
+    "pub:current": "bun run pub:lock && bun run pub:verify && bun run pub:publish",
+    "pub": "bun run pub:bump && bun run pub:lock && bun run pub:verify && bun run pub:publish",
+    "pub:checked": "bun run typecheck && bun run test && bun run pub:bump && bun run pub:lock && bun run pub:verify && bun run pub:publish"
+  },
+  "devDependencies": {
+    "@openai/codex-sdk": "^0.147.0",
+    "@types/bun": "latest",
+    "@types/node": "^22.15.0",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@meteora-ag/dlmm": "^1.9.14",
+    "@solana/web3.js": "^1.99.0",
+    "bn.js": "^5.2.5",
+    "measure-fn": "5.2.0",
+    "tradjs": "^4.4.0"
+  }
 }

@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0a0b10" />
+  <meta name="description" content="Solard SDK and CLI documentation for Solana wallets, trading, shared market feeds, strategies, launches, backtesting, Raydium and Meteora DLMM." />
+  <title>Solard — Solana SDK & CLI</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="noise"></div>
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="Solard home">
+      <span class="brand-mark" aria-hidden="true"><span></span></span>
+      <span class="brand-text">solard</span>
+      <span class="brand-tag">SDK + CLI</span>
+    </a>
+    <nav class="topnav" aria-label="Main navigation">
+      <a href="#quickstart">Quickstart</a>
+      <a href="#sdk">SDK</a>
+      <a href="#cli">CLI</a>
+      <a href="#architecture">Architecture</a>
+    </nav>
+    <div class="top-actions">
+      <button class="icon-button" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
+        <span class="theme-icon">◐</span>
+      </button>
+      <a class="button compact" href="#quickstart">Get started</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero shell">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="pulse"></span> Solana infrastructure for automation</div>
+        <h1>Build trading systems.<br /><span>Keep the plumbing sane.</span></h1>
+        <p class="hero-lede">Solard is a capability-oriented Solana SDK and CLI for encrypted wallets, trading, launchpads, shared live price feeds, strategy execution, historical replay and Meteora DLMM operations.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#quickstart">Read the docs <span>→</span></a>
+          <button class="button ghost copy-inline" data-copy="bun add @solard/sdk">bun add @solard/sdk <span class="copy-glyph">⌘</span></button>
+        </div>
+        <div class="hero-facts">
+          <span><b>1</b> shared market feed</span>
+          <span><b>5 rps</b> aware by default</span>
+          <span><b>CLI ↔ SDK</b> same core</span>
+        </div>
+      </div>
+
+      <div class="terminal-card" aria-label="Solard example terminal">
+        <div class="terminal-head">
+          <div class="traffic"><i></i><i></i><i></i></div>
+          <div class="terminal-title">solard / shared-feed.ts</div>
+          <div class="terminal-status"><span></span> live</div>
+        </div>
+        <div class="terminal-tabs" role="tablist">
+          <button class="tab active" data-tab="hero-cli">CLI</button>
+          <button class="tab" data-tab="hero-sdk">SDK</button>
+        </div>
+        <div class="terminal-body tab-panel active" id="hero-cli">
+<pre><code><span class="muted"># one upstream market feed</span>
+<span class="prompt">$</span> slrd feed serve --rpc-rps 5 --rpc-read-rps 2
+
+<span class="ok">ready</span>  ws://127.0.0.1:8788/ws
+<span class="dim">upstream</span> pump · pumpswap · launchlab
+
+<span class="prompt">$</span> slrd launch watch \
+    --venue pump,raydium-launchlab \
+    --min-mcap 5000 --ath-step-pct 20
+
+<span class="accent">threshold</span>  $5,224  7Hk…pump
+<span class="accent2">new ath</span>    $6,392  +22.4%</code></pre>
+        </div>
+        <div class="terminal-body tab-panel" id="hero-sdk">
+<pre><code><span class="kw">import</span> { createPriceFeed } <span class="kw">from</span> <span class="str">"@solard/sdk"</span>;
+
+<span class="kw">const</span> feed = <span class="kw">await</span> createPriceFeed();
+
+<span class="kw">const</span> stop = feed.watchPrice(mint, <span class="kw">async</span> (tick) =&gt; {
+  console.log(tick.priceSol, tick.marketCapUsd);
+});
+
+<span class="muted">// multiple agents can share the same mint feed</span>
+<span class="muted">// without duplicating upstream RPC subscriptions</span></code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="band">
+      <div class="shell band-grid">
+        <div><span class="metric">Wallets</span><p>Encrypted multi-wallet operations, contacts, groups and transfers.</p></div>
+        <div><span class="metric">Markets</span><p>Pump, PumpSwap, Raydium LaunchLab/CPMM and Meteora DLMM.</p></div>
+        <div><span class="metric">Automation</span><p>Shared price feed, callback strategies and historical replay.</p></div>
+        <div><span class="metric">Safety</span><p>Simulation-first paths, explicit live gates and bounded RPC usage.</p></div>
+      </div>
+    </section>
+
+    <section class="docs-shell shell" id="quickstart">
+      <aside class="sidebar" aria-label="Documentation sections">
+        <div class="sidebar-label">Documentation</div>
+        <a class="side-link active" href="#quickstart">Quickstart</a>
+        <a class="side-link" href="#principles">Design</a>
+        <a class="side-link" href="#sdk">SDK</a>
+        <a class="side-link sub" href="#sdk-core">Core client</a>
+        <a class="side-link sub" href="#sdk-feed">Price feed</a>
+        <a class="side-link sub" href="#sdk-browser">Browser</a>
+        <a class="side-link" href="#cli">CLI</a>
+        <a class="side-link sub" href="#cli-wallets">Wallets</a>
+        <a class="side-link sub" href="#cli-trading">Trading</a>
+        <a class="side-link sub" href="#cli-feed">Feed & strategies</a>
+        <a class="side-link sub" href="#cli-history">History</a>
+        <a class="side-link sub" href="#cli-launches">Launches</a>
+        <a class="side-link sub" href="#cli-meteora">Meteora</a>
+        <a class="side-link" href="#architecture">Architecture</a>
+        <a class="side-link" href="#environment">Environment</a>
+      </aside>
+
+      <article class="docs-content">
+        <div class="section-heading">
+          <span class="kicker">01 / Quickstart</span>
+          <h2>Start with the CLI. Move to the SDK when you need composition.</h2>
+          <p>The CLI and SDK share the same canonical core, so behavior should not fork between shell workflows and application code.</p>
+        </div>
+
+        <div class="install-switcher">
+          <div class="segmented" role="tablist" aria-label="Installation mode">
+            <button class="seg active" data-install="package">Package</button>
+            <button class="seg" data-install="workspace">Monorepo</button>
+          </div>
+          <div class="install-panel active" id="install-package">
+            <div class="code-block">
+              <div class="code-head"><span>terminal</span><button class="copy" data-copy-target="installPackage">Copy</button></div>
+<pre id="installPackage"><code>bun add @solard/sdk
+bun add -g solard-cli
+
+slrd help</code></pre>
+            </div>
+          </div>
+          <div class="install-panel" id="install-workspace">
+            <div class="code-block">
+              <div class="code-head"><span>terminal</span><button class="copy" data-copy-target="installWorkspace">Copy</button></div>
+<pre id="installWorkspace"><code>bun install
+bun run ./packages/solard-cli/bin/solard.ts help</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout warning">
+          <div class="callout-icon">!</div>
+          <div><strong>Live writes are explicit.</strong><p>Many write paths are simulation/preview first. Commands that use the live-trading gate require <code>SOLARD_ENABLE_LIVE_TRADES=1</code> plus the command's explicit live option.</p></div>
+        </div>
+
+        <section class="doc-section" id="principles">
+          <span class="kicker">02 / Design</span>
+          <h2>Capability-oriented by design</h2>
+          <p>Solard owns protocol access, deterministic transaction construction, wallet persistence, market data plumbing and execution boundaries. Strategy policy stays in scripts and applications.</p>
+          <div class="feature-grid">
+            <div class="feature-card"><span class="feature-num">01</span><h3>One canonical core</h3><p><code>@solard/sdk</code> and <code>slrd</code> use the same implementation instead of duplicating trading logic.</p></div>
+            <div class="feature-card"><span class="feature-num">02</span><h3>Shared market data</h3><p>One feed server fans prices out to watchers, agents and UI clients. A second strategy on the same mint does not create a second upstream subscription.</p></div>
+            <div class="feature-card"><span class="feature-num">03</span><h3>Bounded RPC pressure</h3><p>JSON-RPC traffic is globally rate-limited to 5 req/s by default; live feed enrichment can reserve a smaller budget.</p></div>
+            <div class="feature-card"><span class="feature-num">04</span><h3>Explicit execution</h3><p>Read, quote, simulate and build paths are separated from irreversible live actions wherever the command surface supports it.</p></div>
+          </div>
+        </section>
+
+        <section class="doc-section" id="sdk">
+          <span class="kicker">03 / SDK</span>
+          <h2>Build with <code>@solard/sdk</code></h2>
+          <p>The public SDK is the application-facing surface. Use the trader preset for wallet/trading workflows and the shared feed client for event-driven applications.</p>
+
+          <div class="subsection" id="sdk-core">
+            <h3>Core client</h3>
+            <div class="code-block">
+              <div class="code-head"><span>TypeScript</span><button class="copy" data-copy-target="sdkCore">Copy</button></div>
+<pre id="sdkCore"><code><span class="kw">import</span> { createTraderSolard, sol } <span class="kw">from</span> <span class="str">"@solard/sdk"</span>;
+
+<span class="kw">const</span> slrd = createTraderSolard();
+
+<span class="muted">// list locally stored wallets</span>
+<span class="kw">const</span> wallets = slrd.listWallets();
+
+<span class="muted">// compose a native SOL transfer</span>
+<span class="kw">const</span> receipt = <span class="kw">await</span> slrd
+  .tx(<span class="str">"trader-1"</span>)
+  .transferSol(<span class="str">"RECIPIENT_ADDRESS"</span>, sol(<span class="str">"0.01"</span>))
+  .send();
+
+console.log(receipt.signature, receipt.status);</code></pre>
+            </div>
+          </div>
+
+          <div class="subsection" id="sdk-feed">
+            <h3>Shared price feed</h3>
+            <p>Run one feed server, then subscribe from any number of SDK consumers. The SDK reference-counts listeners inside a process and reconnects/resubscribes automatically.</p>
+            <div class="code-block">
+              <div class="code-head"><span>TypeScript</span><button class="copy" data-copy-target="sdkFeed">Copy</button></div>
+<pre id="sdkFeed"><code><span class="kw">import</span> { createPriceFeed } <span class="kw">from</span> <span class="str">"@solard/sdk"</span>;
+
+<span class="kw">const</span> feed = <span class="kw">await</span> createPriceFeed({
+  url: <span class="str">"ws://127.0.0.1:8788/ws"</span>,
+  onStatus(event, data) {
+    console.log(event, data ?? <span class="str">""</span>);
+  },
+});
+
+<span class="kw">const</span> stop = feed.watchPrice(mint, <span class="kw">async</span> (tick) =&gt; {
+  console.log({
+    priceSol: tick.priceSol,
+    priceUsd: tick.priceUsd,
+    marketCapUsd: tick.marketCapUsd,
+    venue: tick.venue,
+    at: <span class="kw">new</span> Date(tick.atMs),
+  });
+});
+
+<span class="muted">// later</span>
+stop();
+feed.close();</code></pre>
+            </div>
+
+            <div class="api-table-wrap">
+              <table class="api-table">
+                <thead><tr><th>Method</th><th>Purpose</th></tr></thead>
+                <tbody>
+                  <tr><td><code>watchPrice(mint, listener)</code></td><td>Subscribe one consumer to one mint; returns an unsubscribe function.</td></tr>
+                  <tr><td><code>watchPrices(mints, listener)</code></td><td>Subscribe one callback to several mints.</td></tr>
+                  <tr><td><code>watchLaunches(listener)</code></td><td>Receive launch discovery events from the shared feed.</td></tr>
+                  <tr><td><code>latest(mint)</code></td><td>Read the newest price tick received by this SDK client.</td></tr>
+                  <tr><td><code>close()</code></td><td>Close the local feed client and clear listeners.</td></tr>
+                  <tr><td><code>closed</code></td><td>Promise that resolves when the client is fully closed.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="subsection" id="sdk-browser">
+            <h3>Browser-safe surface</h3>
+            <p>The browser entry point exposes browser wallet/storage primitives and the same shared price-feed client without exposing server-side wallet repositories.</p>
+            <div class="code-block compact-code">
+              <div class="code-head"><span>TypeScript</span><button class="copy" data-copy-target="sdkBrowser">Copy</button></div>
+<pre id="sdkBrowser"><code><span class="kw">import</span> { createPriceFeed } <span class="kw">from</span> <span class="str">"@solard/sdk/browser"</span>;
+
+<span class="kw">const</span> feed = <span class="kw">await</span> createPriceFeed();</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <section class="doc-section" id="cli">
+          <span class="kicker">04 / CLI</span>
+          <div class="cli-title-row">
+            <div><h2>CLI reference</h2><p>Search the common command surface. Use <code>slrd help</code> and command-specific help for the full current option set.</p></div>
+            <label class="search-box"><span>⌕</span><input id="commandSearch" type="search" placeholder="Filter commands…" autocomplete="off" /></label>
+          </div>
+
+          <div class="command-groups" id="commandGroups">
+            <div class="command-group" id="cli-wallets">
+              <h3>Wallets & assets</h3>
+              <div class="command-list">
+                <div class="command-row" data-search="wallet create encrypted vanity"><code>slrd wallet create trader-1</code><span>Create an encrypted wallet.</span></div>
+                <div class="command-row" data-search="import private key wallet"><code>slrd import &lt;private_key&gt; trader-2</code><span>Import a signing wallet.</span></div>
+                <div class="command-row" data-search="wallets tokens balances totals"><code>slrd wallets --tokens --token-totals</code><span>Scan all stored wallets for SOL and token holdings.</span></div>
+                <div class="command-row" data-search="balances wallet spl wsol"><code>slrd balances --wallet trader-1</code><span>Show SOL + SPL balances for one wallet.</span></div>
+                <div class="command-row" data-search="transfer sol contact wallet"><code>slrd transfer gxy1 --wallet owner --sol 1</code><span>Transfer native SOL to a wallet/contact/address.</span></div>
+                <div class="command-row" data-search="unwrap wsol all wallets"><code>slrd unwrap-wsol --all-wallets --simulate-only</code><span>Preview closing every owned WSOL account, including non-ATA accounts.</span></div>
+                <div class="command-row" data-search="reclaim buffers programs loader rent"><code>slrd reclaim inspect --all-wallets</code><span>Inspect Loader-v3 buffers/programs controlled by stored wallets.</span></div>
+              </div>
+            </div>
+
+            <div class="command-group" id="cli-trading">
+              <h3>Trading & consolidation</h3>
+              <div class="command-list">
+                <div class="command-row" data-search="quote buy"><code>slrd quote buy &lt;token&gt; --sol 0.05</code><span>Inspect a buy quote without submitting.</span></div>
+                <div class="command-row" data-search="buy token wallet"><code>slrd buy &lt;token&gt; --wallet trader-1 --sol 0.05</code><span>Buy through the configured route; simulation/live behavior depends on command flags.</span></div>
+                <div class="command-row" data-search="sell token wallet bps"><code>slrd sell &lt;token&gt; --wallet trader-1 --bps 10000</code><span>Sell a percentage of the wallet position.</span></div>
+                <div class="command-row" data-search="swap jupiter from to"><code>slrd swap --from SOL --to &lt;mint&gt; --amount 0.1 --wallet trader-1</code><span>Exact-input swap / quote flow.</span></div>
+                <div class="command-row" data-search="liquidate all tokens"><code>slrd liquidate tokens --except &lt;protected-token&gt;</code><span>Plan liquidation of unprotected supported tokens.</span></div>
+                <div class="command-row" data-search="sweep sol wallets"><code>slrd sweep --to treasury --below 0.05</code><span>Sweep low-SOL wallets to a destination.</span></div>
+              </div>
+            </div>
+
+            <div class="command-group" id="cli-feed">
+              <h3>Shared feed & strategies</h3>
+              <div class="command-list">
+                <div class="command-row important" data-search="feed serve shared market websocket"><code>slrd feed serve --rpc-rps 5 --rpc-read-rps 2</code><span>Run one upstream Pump/PumpSwap/LaunchLab feed for all local clients.</span></div>
+                <div class="command-row" data-search="launch watch market cap ath"><code>slrd launch watch --venue pump,raydium-launchlab --min-mcap 5000 --ath-step-pct 20</code><span>Consume the shared feed and notify on qualification/ATH policy.</span></div>
+                <div class="command-row" data-search="strategy run callback onprice live"><code>slrd strategy run ./strategy.ts --token &lt;mint&gt; --wallet trader-1</code><span>Run an <code>onPrice</code> strategy using the shared feed.</span></div>
+                <div class="command-row" data-search="strategy backtest history replay"><code>slrd strategy backtest ./strategy.ts --token &lt;mint&gt; --price-sample 5s</code><span>Replay the same strategy file over historical data.</span></div>
+              </div>
+            </div>
+
+            <div class="command-group" id="cli-history">
+              <h3>History & backtesting</h3>
+              <div class="command-list">
+                <div class="command-row" data-search="token backfill index signatures"><code>slrd token backfill &lt;mint&gt;</code><span>Index historical signatures without hydrating every transaction.</span></div>
+                <div class="command-row" data-search="materialize price sample history"><code>slrd token backfill &lt;mint&gt; --materialize --price-sample-ms 1000</code><span>Build a sampled durable price tape.</span></div>
+                <div class="command-row" data-search="exact trades historical"><code>slrd token backfill &lt;mint&gt; --exact</code><span>Hydrate exact fills when order-flow/volume research requires them.</span></div>
+                <div class="command-row" data-search="backtest dip profit"><code>slrd backtest &lt;mint&gt; --dip-pct 20 --profit-pct 40 --buy-sol 0.02</code><span>Run the built-in ATH-drawdown/profit backtester.</span></div>
+              </div>
+            </div>
+
+            <div class="command-group" id="cli-launches">
+              <h3>Launchpads & Raydium</h3>
+              <div class="command-list">
+                <div class="command-row" data-search="pump launch create token"><code>slrd launch pump --creator trader-1 --image ./token.png --description "…"</code><span>Prepare/launch a Pump token with metadata.</span></div>
+                <div class="command-row" data-search="raydium quote"><code>slrd raydium quote --from SOL --to &lt;mint&gt; --amount 1</code><span>Quote an exact-input Raydium route.</span></div>
+                <div class="command-row" data-search="raydium launchlab configs stonkfun"><code>slrd raydium launchlab configs</code><span>List available LaunchLab platform configurations.</span></div>
+                <div class="command-row" data-search="raydium launchlab buy"><code>slrd raydium launchlab buy &lt;mint&gt; --wallet trader-1 --amount 0.05</code><span>Build/simulate or execute a LaunchLab buy.</span></div>
+                <div class="command-row" data-search="raydium cpmm create"><code>slrd raydium cpmm create --wallet trader-1 --mint-a A --mint-b B --amount-a 1 --amount-b 1</code><span>Create an arbitrary SPL/SPL CPMM pair.</span></div>
+              </div>
+            </div>
+
+            <div class="command-group" id="cli-meteora">
+              <h3>Meteora DLMM</h3>
+              <div class="command-list">
+                <div class="command-row" data-search="meteora discover pools"><code>slrd meteora discover --timeframe 30m --sort fee-active-tvl --limit 20</code><span>Discover DLMM pools using active-liquidity metrics.</span></div>
+                <div class="command-row" data-search="meteora candles ohlcv"><code>slrd meteora candles &lt;pool&gt; --timeframe 5m</code><span>Fetch pool OHLCV data.</span></div>
+                <div class="command-row" data-search="meteora positions wallet"><code>slrd meteora positions --wallet trader-1</code><span>List a wallet's DLMM positions.</span></div>
+                <div class="command-row" data-search="meteora open spot liquidity"><code>slrd meteora open &lt;pool&gt; --wallet trader-1 --sol 0.1 --bins 40 --strategy spot</code><span>Prepare/open Spot liquidity.</span></div>
+                <div class="command-row" data-search="meteora move migrate"><code>slrd meteora move &lt;position&gt; --wallet trader-1 --bins 10</code><span>Reposition an existing DLMM position.</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="empty-search" id="emptySearch">No matching command. Try a broader term.</div>
+        </section>
+
+        <section class="doc-section" id="architecture">
+          <span class="kicker">05 / Architecture</span>
+          <h2>One market feed. Many independent consumers.</h2>
+          <p>Market data is shared; strategy state and signing remain isolated. This is the boundary that lets several agents or a future multi-user UI consume the same token feed without multiplying RPC subscriptions.</p>
+
+          <div class="architecture">
+            <div class="arch-row upstream">
+              <div class="arch-node source"><span>Solana</span><b>RPC + WebSocket</b><small>5 req/s budget</small></div>
+            </div>
+            <div class="arch-arrow">↓</div>
+            <div class="arch-row">
+              <div class="arch-node hub"><span>Shared service</span><b>slrd feed serve</b><small>Pump · PumpSwap · LaunchLab</small></div>
+            </div>
+            <div class="arch-split"><i></i><i></i><i></i><i></i></div>
+            <div class="arch-row consumers">
+              <div class="arch-node"><span>Agent</span><b>Wallet A</b><small>strategy X</small></div>
+              <div class="arch-node"><span>Agent</span><b>Wallet B</b><small>strategy Y</small></div>
+              <div class="arch-node"><span>Watcher</span><b>Launch policy</b><small>$5k + ATH</small></div>
+              <div class="arch-node"><span>Client</span><b>Future UI</b><small>charts + control</small></div>
+            </div>
+          </div>
+
+          <div class="callout info">
+            <div class="callout-icon">i</div>
+            <div><strong>Same mint, multiple strategies.</strong><p>The SDK reference-counts local listeners. Two strategies subscribing to the same mint still produce one logical upstream mint subscription/fallback path at the feed server.</p></div>
+          </div>
+        </section>
+
+        <section class="doc-section" id="environment">
+          <span class="kicker">06 / Environment</span>
+          <h2>Runtime configuration</h2>
+          <div class="env-grid">
+            <div class="env-row"><code>RPC_ENDPOINT</code><span>Primary Solana JSON-RPC endpoint.</span></div>
+            <div class="env-row"><code>HELIUS_RPC_URL</code><span>Optional Helius endpoint used where configured.</span></div>
+            <div class="env-row"><code>SLRD_DB_PATH</code><span>Canonical wallet/config database path.</span></div>
+            <div class="env-row"><code>SLRD_MASTER_KEY</code><span>Optional non-interactive wallet encryption key.</span></div>
+            <div class="env-row"><code>SOLARD_ENABLE_LIVE_TRADES=1</code><span>Master opt-in for live-write paths that use the live gate.</span></div>
+            <div class="env-row"><code>SLRD_RPC_MAX_RPS</code><span>Override the default global 5 req/s limiter only if the provider allows it.</span></div>
+            <div class="env-row"><code>SLRD_JUPITER_MAX_RPS</code><span>Jupiter fallback request budget.</span></div>
+          </div>
+
+          <h3 class="mt">Diagnostics</h3>
+          <div class="code-block compact-code">
+            <div class="code-head"><span>terminal</span><button class="copy" data-copy-target="diagnostics">Copy</button></div>
+<pre id="diagnostics"><code>slrd &lt;command&gt; --measure
+slrd &lt;command&gt; --measure-stream</code></pre>
+          </div>
+          <p class="footnote"><code>--measure</code> prints aggregate timings after the command. <code>--measure-stream</code> restores live <code>measure-fn</code> events for low-level debugging.</p>
+        </section>
+
+        <section class="final-cta">
+          <div>
+            <span class="kicker">Build on the same primitives</span>
+            <h2>CLI when you want speed.<br />SDK when you want composition.</h2>
+          </div>
+          <a class="button primary" href="#quickstart">Start building →</a>
+        </section>
+      </article>
+
+      <aside class="toc">
+        <div class="toc-title">On this page</div>
+        <a href="#quickstart">Quickstart</a>
+        <a href="#principles">Design</a>
+        <a href="#sdk">SDK</a>
+        <a href="#cli">CLI reference</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#environment">Environment</a>
+      </aside>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="shell footer-inner">
+      <a class="brand" href="#top"><span class="brand-mark small"><span></span></span><span class="brand-text">solard</span></a>
+      <p>Capability-oriented Solana SDK + CLI.</p>
+      <a href="#top">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">Copied</div>
+  <script src="./app.js"></script>
+</body>
+</html>

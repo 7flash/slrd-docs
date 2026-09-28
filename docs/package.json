@@ -1,0 +1,9 @@
+{
+  "name": "@solard/docs",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun server.mjs",
+    "start": "bun server.mjs"
+  }
+}
