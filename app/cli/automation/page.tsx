@@ -5,9 +5,8 @@ import { automationCommands } from "../../_data/cli";
 export default function CliAutomationPage() {
   return (
     <DocsPage
-      eyebrow="CLI reference"
-      title="Automation & agents"
-      description="Scripts, reusable strategy files, wallet groups, persisted agents, watch targets, Jito helpers, and address lookup tables."
+      title="Automation"
+      description="Scripts, strategies, groups, agents, watches, Jito, and ALTs."
     >
       <h2 id="scripts-strategies">Scripts and strategies</h2>
       {automationCommands.slice(0, 4).map((command) => (

@@ -11,71 +11,69 @@ export const docGroups = [
     title: "Start",
     pages: [
       ["/", "Overview"],
-      ["/getting-started", "Getting started"],
+      ["/getting-started", "Quick start"],
       ["/configuration", "Configuration"],
     ],
   },
   {
     title: "SDK",
     pages: [
-      ["/sdk", "SDK overview"],
-      ["/sdk/client", "Client methods"],
-      ["/sdk/history-events", "History & events"],
-      ["/sdk/rewards", "Claims & distributions"],
-      ["/sdk/price-feed", "Shared price feed"],
-      ["/sdk/types", "Types & return values"],
+      ["/sdk", "Overview"],
+      ["/sdk/client", "Client"],
+      ["/sdk/subscriptions", "Subscriptions"],
+      ["/sdk/history-events", "History"],
+      ["/sdk/rewards", "Claims & payouts"],
+      ["/sdk/types", "Types"],
     ],
   },
   {
     title: "CLI",
     pages: [
-      ["/cli", "CLI overview"],
+      ["/cli", "Overview"],
       ["/cli/wallets-tokens", "Wallets & tokens"],
-      ["/cli/market-data", "Market data & history"],
-      ["/cli/trading", "Trading & operations"],
-      ["/cli/launching", "Launching & metadata"],
-      ["/cli/automation", "Automation & agents"],
-      ["/cli/meteora", "Meteora DLMM"],
+      ["/cli/market-data", "Market data"],
+      ["/cli/trading", "Trading"],
+      ["/cli/launching", "Launching"],
+      ["/cli/automation", "Automation"],
+      ["/cli/meteora", "Meteora"],
       ["/cli/raydium", "Raydium"],
     ],
   },
   {
     title: "Concepts",
     pages: [
-      ["/venues", "Venues & routing"],
-      ["/meteora-autopilot", "Meteora autopilot"],
       ["/safety", "Execution & safety"],
+      ["/venues", "Venues"],
+      ["/meteora-autopilot", "Meteora autopilot"],
+      ["/architecture", "Architecture"],
     ],
   },
   {
-    title: "Reference",
-    pages: [["/api-reference", "Reference index"]],
+    title: "Index",
+    pages: [["/api-reference", "All reference"]],
   },
 ] as const;
 
 export const docEntries: DocEntry[] = [
   {
     href: "/",
-    title: "Solard documentation",
+    title: "Solard",
     section: "Start",
-    description:
-      "Developer documentation for the public SDK, CLI, trading engine, history, venues, rewards, and automation.",
-    keywords: ["overview", "solana", "sdk", "cli", "trading", "docs"],
+    description: "SDK and CLI for Solana applications.",
+    keywords: ["overview", "solana", "sdk", "cli"],
   },
   {
     href: "/getting-started",
-    title: "Getting started",
+    title: "Quick start",
     section: "Start",
-    description:
-      "Install Solard, configure RPC and wallet encryption, create a client, and run the first read and write operations.",
-    keywords: ["install", "bun", "quickstart", "rpc", "wallet", "createSolard"],
+    description: "Install, configure RPC, use the SDK or CLI.",
+    keywords: ["install", "bun", "rpc", "wallet", "createSolard"],
   },
   {
     href: "/configuration",
     title: "Configuration",
     section: "Start",
-    description:
-      "Environment variables for database paths, wallet encryption, RPC limits, senders, Pump, PumpSwap, Meteora, and web auth.",
+    description: "Database, RPC, wallet, sender, venue, and service settings.",
     keywords: [
       "environment",
       "SLRD_MASTER_KEY",
@@ -87,24 +85,16 @@ export const docEntries: DocEntry[] = [
   },
   {
     href: "/sdk",
-    title: "SDK overview",
+    title: "SDK",
     section: "SDK",
-    description:
-      "What @solard/sdk exports, what the curated client intentionally hides, and how the SDK is organized.",
-    keywords: [
-      "@solard/sdk",
-      "createSolard",
-      "createTraderSolard",
-      "exports",
-      "membrane",
-    ],
+    description: "Public application API.",
+    keywords: ["@solard/sdk", "createSolard", "createTraderSolard"],
   },
   {
     href: "/sdk/client",
-    title: "SDK client methods",
+    title: "Client",
     section: "SDK",
-    description:
-      "Exact signatures and behavior for wallet, token, holder, balance, price, buy, sell, and lifecycle methods.",
+    description: "Wallets, tokens, balances, holders, prices, buy, sell.",
     keywords: [
       "createWallet",
       "importWallet",
@@ -117,83 +107,76 @@ export const docEntries: DocEntry[] = [
     ],
   },
   {
-    href: "/sdk/history-events",
-    title: "SDK history & events",
+    href: "/sdk/subscriptions",
+    title: "Subscriptions",
     section: "SDK",
-    description:
-      "Replay history, market history, merged histories, replay subscriptions, coverage, and stream shutdown.",
+    description: "Launch, migration, and trade streams.",
+    keywords: [
+      "subscribeLaunches",
+      "subscribeMigrations",
+      "subscribeTrades",
+      "websocket",
+      "launch",
+      "migration",
+      "trades",
+    ],
+  },
+  {
+    href: "/sdk/history-events",
+    title: "History",
+    section: "SDK",
+    description: "Replay, market history, coverage, merged streams.",
     keywords: [
       "history.replay",
       "history.market",
       "events",
       "ReplayOptions",
       "ReplayCoverage",
-      "market history",
     ],
   },
   {
     href: "/sdk/rewards",
-    title: "SDK claims & distributions",
+    title: "Claims & payouts",
     section: "SDK",
-    description:
-      "Creator-fee claims and durable cumulative entitlement distributions, including planning, execution, and status.",
+    description: "Creator-fee claims and cumulative distributions.",
     keywords: [
       "claims",
       "creator fees",
       "distributions",
       "entitlements",
       "rewards",
-      "payouts",
-    ],
-  },
-  {
-    href: "/sdk/price-feed",
-    title: "SDK shared price feed",
-    section: "SDK",
-    description:
-      "connectPriceFeed and createPriceFeed, subscription commands, launch messages, price messages, reconnection, and listeners.",
-    keywords: [
-      "price feed",
-      "websocket",
-      "connectPriceFeed",
-      "createPriceFeed",
-      "watchPrice",
-      "launch",
     ],
   },
   {
     href: "/sdk/types",
-    title: "SDK types & return values",
+    title: "Types",
     section: "SDK",
-    description:
-      "Reference for amounts, token and wallet refs, holder snapshots, market prices, receipts, replay items, and distribution state.",
+    description: "Public refs, amounts, events, receipts, snapshots, state.",
     keywords: [
       "types",
       "HumanAmount",
       "WalletRef",
       "TokenRef",
       "SendReceipt",
-      "TokenHolderSnapshot",
+      "TradeEvent",
     ],
   },
   {
     href: "/cli",
-    title: "CLI overview",
+    title: "CLI",
     section: "CLI",
-    description:
-      "How slrd parses commands, prompts for the ephemeral wallet password, reports telemetry, and chooses live versus simulation behavior.",
+    description: "Command groups and execution rules.",
     keywords: ["slrd", "commands", "help", "measure", "live", "simulate"],
   },
   {
     href: "/cli/wallets-tokens",
-    title: "CLI wallets & tokens",
+    title: "Wallets & tokens",
     section: "CLI",
     description:
-      "Wallet creation/import/export, contacts, balances, token registry, holders, events, and vanity mint commands.",
+      "Wallets, contacts, balances, tokens, holders, events, vanity mints.",
     keywords: [
       "wallet create",
       "import",
-      "export",
       "contacts",
       "token backfill",
       "holders",
@@ -203,10 +186,10 @@ export const docEntries: DocEntry[] = [
   },
   {
     href: "/cli/market-data",
-    title: "CLI market data & history",
+    title: "Market data",
     section: "CLI",
     description:
-      "Shared market feed, launch discovery, Pump discovery, quotes, prices, token history, backtesting, and transaction streams.",
+      "Feeds, launches, prices, history, backtests, transaction streams.",
     keywords: [
       "feed serve",
       "launch watch",
@@ -219,10 +202,10 @@ export const docEntries: DocEntry[] = [
   },
   {
     href: "/cli/trading",
-    title: "CLI trading & operations",
+    title: "Trading",
     section: "CLI",
     description:
-      "Transfers, buys, sells, swaps, sweeps, liquidation, WSOL unwrap, reclaim, claims, transfer-many, and reward operations.",
+      "Transfers, swaps, buys, sells, sweeps, liquidation, claims, rewards.",
     keywords: [
       "transfer",
       "buy",
@@ -230,40 +213,34 @@ export const docEntries: DocEntry[] = [
       "swap",
       "sweep",
       "liquidate",
-      "unwrap-wsol",
-      "reclaim",
       "rewards",
     ],
   },
   {
     href: "/cli/launching",
-    title: "CLI launching & metadata",
+    title: "Launching",
     section: "CLI",
-    description:
-      "Pump launch, external payer preparation, metadata uploads, deploy, vamp, mint pools, and transport controls.",
+    description: "Pump launch, prepare, metadata, deploy, vamp.",
     keywords: [
       "launch pump",
       "prepare pump",
       "metadata upload",
       "deploy pump",
       "vamp",
-      "mint pool",
     ],
   },
   {
     href: "/cli/automation",
-    title: "CLI automation & agents",
+    title: "Automation",
     section: "CLI",
-    description:
-      "Scripts, event strategies, groups, agents, watches, Jito helpers, and address lookup tables.",
+    description: "Scripts, strategies, groups, agents, watches, ALTs, Jito.",
     keywords: ["scripts", "strategy", "group", "agent", "watch", "alt", "jito"],
   },
   {
     href: "/cli/meteora",
-    title: "CLI Meteora DLMM",
+    title: "Meteora",
     section: "CLI",
-    description:
-      "Complete Meteora read, quote, position, migration, claim, close, and swap command reference.",
+    description: "DLMM discovery, positions, liquidity, claims, swaps.",
     keywords: [
       "meteora",
       "dlmm",
@@ -272,24 +249,35 @@ export const docEntries: DocEntry[] = [
       "open",
       "move",
       "migrate",
-      "claim-all",
       "swap",
     ],
   },
   {
     href: "/cli/raydium",
-    title: "CLI Raydium",
+    title: "Raydium",
     section: "CLI",
-    description:
-      "Raydium quotes and swaps, LaunchLab configs/launch/buy/sell, and CPMM pool creation.",
+    description: "Quotes, swaps, LaunchLab, CPMM.",
     keywords: ["raydium", "launchlab", "cpmm", "quote", "swap"],
   },
   {
-    href: "/venues",
-    title: "Venues & routing",
+    href: "/safety",
+    title: "Execution & safety",
     section: "Concepts",
-    description:
-      "How Solard distinguishes Pump, PumpSwap, Raydium, Jupiter, and Meteora execution paths.",
+    description: "Signing, simulation, paper mode, live execution, and gates.",
+    keywords: [
+      "safety",
+      "simulation",
+      "live",
+      "master key",
+      "wallet",
+      "broadcast",
+    ],
+  },
+  {
+    href: "/venues",
+    title: "Venues",
+    section: "Concepts",
+    description: "Pump, PumpSwap, Jupiter, Raydium, and Meteora routing.",
     keywords: [
       "venue",
       "routing",
@@ -304,8 +292,7 @@ export const docEntries: DocEntry[] = [
     href: "/meteora-autopilot",
     title: "Meteora autopilot",
     section: "Concepts",
-    description:
-      "Deterministic screening, management plans, policy review, persistent lessons, and guarded autonomous LP execution.",
+    description: "Screening, planning, memory, management, guarded execution.",
     keywords: [
       "autopilot",
       "meteora",
@@ -316,25 +303,25 @@ export const docEntries: DocEntry[] = [
     ],
   },
   {
-    href: "/safety",
-    title: "Execution & safety",
+    href: "/architecture",
+    title: "Architecture",
     section: "Concepts",
     description:
-      "The real execution model: which commands broadcast by default, which require --live, how simulation works, and how signing keys are protected.",
+      "Public boundaries, subscriptions, enrichment, security, execution.",
     keywords: [
-      "safety",
-      "simulation",
+      "architecture",
+      "capabilities",
+      "signer",
+      "subscriptions",
+      "paper",
       "live",
-      "master key",
-      "wallet",
-      "broadcast",
     ],
   },
   {
     href: "/api-reference",
-    title: "Reference index",
-    section: "Reference",
-    description: "Single-page index linking every SDK and CLI reference area.",
+    title: "All reference",
+    section: "Index",
+    description: "SDK, CLI, configuration, and concepts.",
     keywords: ["reference", "api", "commands", "methods", "index"],
   },
 ];

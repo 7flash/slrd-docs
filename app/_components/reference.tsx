@@ -13,7 +13,7 @@ export function OptionTable(props: { rows: ReferenceOption[] }) {
       <table>
         <thead>
           <tr>
-            <th>Option / parameter</th>
+            <th>Option</th>
             <th>Type</th>
             <th>Default</th>
             <th>Meaning</th>
@@ -38,7 +38,29 @@ export function OptionTable(props: { rows: ReferenceOption[] }) {
   );
 }
 
-export function CommandRef(props: {
+type ExecutionMode =
+  | "read"
+  | "local-write"
+  | "external-write"
+  | "live-default"
+  | "live-flag"
+  | "plan"
+  | "mixed";
+
+function executionMeaning(mode: ExecutionMode | undefined): string | null {
+  if (mode === "read") return "Read-only.";
+  if (mode === "local-write") return "Local state only; no Solana transaction.";
+  if (mode === "external-write")
+    return "External side effect; no Solana transaction.";
+  if (mode === "live-default")
+    return "Executes unless simulation is requested.";
+  if (mode === "live-flag") return "No broadcast without --live.";
+  if (mode === "plan") return "Plans or simulates by default.";
+  if (mode === "mixed") return "Execution depends on the subcommand.";
+  return null;
+}
+
+type CommandRefProps = {
   id: string;
   title: string;
   syntax: string | string[];
@@ -47,48 +69,28 @@ export function CommandRef(props: {
   options?: ReferenceOption[];
   notes?: string[];
   example?: string;
-  mode?:
-    | "read"
-    | "local-write"
-    | "external-write"
-    | "live-default"
-    | "live-flag"
-    | "plan"
-    | "mixed";
-}) {
+  mode?: ExecutionMode;
+};
+
+export function CommandRef(props: CommandRefProps) {
   const syntaxes = Array.isArray(props.syntax) ? props.syntax : [props.syntax];
-  const modeLabel =
-    props.mode === "read"
-      ? "read-only / no chain write"
-      : props.mode === "local-write"
-        ? "local state change / no chain write"
-        : props.mode === "external-write"
-          ? "external side effect / no chain write"
-          : props.mode === "live-default"
-            ? "broadcasts unless simulated"
-            : props.mode === "live-flag"
-              ? "requires --live to broadcast"
-              : props.mode === "plan"
-                ? "plan / simulation by default"
-                : props.mode === "mixed"
-                  ? "subcommand-dependent"
-                  : null;
+  const execution = executionMeaning(props.mode);
   return (
     <section className="reference-entry" id={props.id}>
-      <div className="reference-heading">
-        <h3>{props.title}</h3>
-        {modeLabel ? (
-          <span className={`mode-badge mode-${props.mode}`}>{modeLabel}</span>
-        ) : null}
-      </div>
-      <p>{props.summary}</p>
+      <h3>{props.title}</h3>
+      <p className="reference-summary">{props.summary}</p>
       <CodeBlock language="shell">{syntaxes.join("\n")}</CodeBlock>
-      {props.behavior?.map((item) => (
-        <p>{item}</p>
-      ))}
+      {execution ? <p className="reference-meta">{execution}</p> : null}
+      {props.behavior?.length ? (
+        <ul className="compact-list">
+          {props.behavior.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      ) : null}
       {props.options?.length ? <OptionTable rows={props.options} /> : null}
       {props.notes?.length ? (
-        <ul className="reference-notes">
+        <ul className="compact-list reference-notes">
           {props.notes.map((note) => (
             <li>{note}</li>
           ))}
@@ -116,16 +118,20 @@ export function ApiRef(props: {
       <h3>
         <code>{props.name}</code>
       </h3>
-      <p>{props.summary}</p>
+      <p className="reference-summary">{props.summary}</p>
       <CodeBlock language="ts">{props.signature}</CodeBlock>
-      {props.behavior?.map((item) => (
-        <p>{item}</p>
-      ))}
+      {props.behavior?.length ? (
+        <ul className="compact-list">
+          {props.behavior.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      ) : null}
       {props.parameters?.length ? (
         <OptionTable rows={props.parameters} />
       ) : null}
       {props.returns ? (
-        <p>
+        <p className="reference-meta">
           <strong>Returns:</strong> {props.returns}
         </p>
       ) : null}
@@ -142,9 +148,10 @@ export function ReferenceIndex(props: {
   return (
     <div className="reference-index">
       {props.items.map((item) => (
-        <a href={item.href} className="reference-index-item">
+        <a className="reference-index-item" href={item.href}>
           <strong>{item.title}</strong>
           <span>{item.description}</span>
+          <span className="reference-arrow">→</span>
         </a>
       ))}
     </div>

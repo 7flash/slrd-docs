@@ -1,22 +1,18 @@
-import { Callout, DocsPage } from "../../_components/docs";
+import { DocsPage } from "../../_components/docs";
 import { CommandRef } from "../../_components/reference";
 
 export default function CliMeteoraPage() {
   return (
     <DocsPage
-      eyebrow="CLI reference"
-      title="Meteora DLMM"
-      description="The complete Meteora CLI surface from the supplied source: discovery, indexed/on-chain inspection, OHLCV, positions, portfolio/history, quoting, liquidity management, migration, claims, and swaps."
+      title="Meteora"
+      description="Meteora discovery, pool data, positions, liquidity, claims, and swaps."
     >
-      <Callout title="Meteora writes are prepare-first">
-        <p>
-          Position and swap commands are prepare/simulation flows unless{" "}
-          <code>--live</code> is supplied. Live execution still requires{" "}
-          <code>SOLARD_ENABLE_LIVE_TRADES=1</code>. The source also states that
-          live sends simulate first and keep preflight enabled unless explicitly
-          skipped.
-        </p>
-      </Callout>
+      <p>
+        <strong>Writes:</strong> prepare/simulate by default.{" "}
+        <code>--live</code> also requires{" "}
+        <code>SOLARD_ENABLE_LIVE_TRADES=1</code>; live sends simulate first and
+        keep preflight unless skipped.
+      </p>
 
       <h2 id="discovery">Discovery and pool inspection</h2>
       <CommandRef

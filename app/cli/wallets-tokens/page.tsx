@@ -5,9 +5,8 @@ import { walletTokenCommands } from "../../_data/cli";
 export default function CliWalletsTokensPage() {
   return (
     <DocsPage
-      eyebrow="CLI reference"
       title="Wallets & tokens"
-      description="Complete reference for the CLI wallet vault, contacts, wallet/balance inspection, token registry/history primitives, holder snapshots, event streams, and vanity mint workflows."
+      description="Wallets, contacts, balances, tokens, holders, events, and vanity mints."
     >
       <h2 id="wallet-management">Wallet management</h2>
       {walletTokenCommands.slice(0, 4).map((command) => (

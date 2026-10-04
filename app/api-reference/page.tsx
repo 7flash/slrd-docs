@@ -1,118 +1,120 @@
-import { Cards, Card, DocsPage } from "../_components/docs";
+import { DocsPage } from "../_components/docs";
 import { ReferenceIndex } from "../_components/reference";
 
 export default function ApiReferencePage() {
   return (
     <DocsPage
-      eyebrow="Reference"
-      title="Reference index"
-      description="Jump directly to the precise SDK or CLI surface you need. The detailed pages are organized around the actual exported client and the commands present in the supplied CLI source."
+      title="All reference"
+      description="SDK, CLI, configuration, and concepts."
     >
-      <h2 id="sdk-reference">SDK reference</h2>
+      <h2 id="sdk">SDK</h2>
       <ReferenceIndex
         items={[
           {
             href: "/sdk/client",
-            title: "Client methods",
+            title: "Client",
             description:
-              "createSolard, wallet/token methods, balances, holders, market price, buy, and sell.",
+              "Wallets, tokens, balances, holders, prices, buy, sell.",
+          },
+          {
+            href: "/sdk/subscriptions",
+            title: "Subscriptions",
+            description: "Launches, migrations, trades, metadata, lifecycle.",
           },
           {
             href: "/sdk/history-events",
-            title: "History & events",
-            description:
-              "ReplayOptions, ReplayHistory, MarketHistoryOptions, events(), and merged streams.",
+            title: "History",
+            description: "Replay, market history, coverage, merged streams.",
           },
           {
             href: "/sdk/rewards",
-            title: "Claims & distributions",
-            description:
-              "CreatorRewardClaimResult and durable cumulative distribution planning/execution.",
-          },
-          {
-            href: "/sdk/price-feed",
-            title: "Shared price feed",
-            description:
-              "connectPriceFeed, createPriceFeed, commands, messages, listeners, and reconnect behavior.",
+            title: "Claims & payouts",
+            description: "Creator claims and cumulative payouts.",
           },
           {
             href: "/sdk/types",
-            title: "Types & returns",
-            description:
-              "Amounts, refs, WalletInfo, MarketPrice, holder snapshots, SendReceipt, SimulationResult, and replay state.",
+            title: "Types",
+            description: "Amounts, refs, events, receipts, snapshots, state.",
           },
         ]}
       />
 
-      <h2 id="cli-reference">CLI reference</h2>
+      <h2 id="cli">CLI</h2>
       <ReferenceIndex
         items={[
           {
             href: "/cli/wallets-tokens",
             title: "Wallets & tokens",
             description:
-              "Vault setup, wallet create/import/export, contacts, balances, token history, holders, events, vanity.",
+              "Wallets, contacts, balances, tokens, holders, events, vanity.",
           },
           {
             href: "/cli/market-data",
-            title: "Market data & history",
+            title: "Market data",
             description:
-              "Feed server, launch/Pump watch, quote/price commands, backtest, tx stream, execution history.",
+              "Feed, launch watch, prices, history, backtests, tx streams.",
           },
           {
             href: "/cli/trading",
-            title: "Trading & operations",
+            title: "Trading",
             description:
-              "Transfer, swap, buy/sell, spam-buy, sweep, liquidation, WSOL, reclaim, claims, rewards, transfer-many.",
+              "Transfer, swap, buy, sell, sweep, liquidation, claims, rewards.",
           },
           {
             href: "/cli/launching",
-            title: "Launching & metadata",
-            description:
-              "Pump launch/prepare/deploy, metadata upload, vamp, and pooled vanity mint use.",
+            title: "Launching",
+            description: "Pump launch, prepare, metadata, deploy, vamp.",
           },
           {
             href: "/cli/automation",
-            title: "Automation & agents",
+            title: "Automation",
             description:
-              "Scripts, strategies, groups, agents, watches, ALTs, and Jito helpers.",
+              "Scripts, strategies, groups, agents, watches, ALTs, Jito.",
           },
           {
             href: "/cli/meteora",
-            title: "Meteora DLMM",
-            description:
-              "Complete read, position, migration, claim, close, quote, and swap reference.",
+            title: "Meteora",
+            description: "Discovery, positions, liquidity, claims, swaps.",
           },
           {
             href: "/cli/raydium",
             title: "Raydium",
-            description: "Quotes/swaps, LaunchLab, and CPMM pool creation.",
+            description: "Quotes, swaps, LaunchLab, CPMM.",
           },
         ]}
       />
 
-      <h2 id="concepts">Execution concepts</h2>
-      <Cards>
-        <Card href="/safety" label="Concept" title="Execution & safety">
-          Understand which methods/commands execute, simulate, quote, or require
-          --live.
-        </Card>
-        <Card href="/venues" label="Concept" title="Venues & routing">
-          Understand native Pump/PumpSwap routes, Jupiter fallback, Raydium
-          services, and Meteora DLMM.
-        </Card>
-        <Card href="/configuration" label="Concept" title="Configuration">
-          Environment and rate-limit settings referenced throughout the API/CLI
-          docs.
-        </Card>
-        <Card
-          href="/meteora-autopilot"
-          label="Concept"
-          title="Meteora autopilot"
-        >
-          Deterministic screening and guarded model-assisted LP management.
-        </Card>
-      </Cards>
+      <h2 id="concepts">Other</h2>
+      <ReferenceIndex
+        items={[
+          {
+            href: "/configuration",
+            title: "Configuration",
+            description: "Environment variables and defaults.",
+          },
+          {
+            href: "/architecture",
+            title: "Architecture",
+            description:
+              "Ownership, subscriptions, enrichment, security, execution.",
+          },
+          {
+            href: "/safety",
+            title: "Execution & safety",
+            description: "Signing, secrets, simulation, paper/live, CLI gates.",
+          },
+          {
+            href: "/venues",
+            title: "Venues",
+            description: "Pump, PumpSwap, Jupiter, Raydium, Meteora.",
+          },
+          {
+            href: "/meteora-autopilot",
+            title: "Meteora autopilot",
+            description: "Screening, planning, memory, guarded execution.",
+          },
+        ]}
+      />
     </DocsPage>
   );
 }

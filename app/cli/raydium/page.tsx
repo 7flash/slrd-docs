@@ -1,20 +1,16 @@
-import { Callout, DocsPage } from "../../_components/docs";
+import { DocsPage } from "../../_components/docs";
 import { CommandRef } from "../../_components/reference";
 
 export default function CliRaydiumPage() {
   return (
     <DocsPage
-      eyebrow="CLI reference"
       title="Raydium"
-      description="Complete Raydium CLI reference for exact-input quotes/swaps, LaunchLab configuration and trading, and arbitrary SPL/SPL CPMM creation."
+      description="Raydium quotes, swaps, LaunchLab, and CPMM."
     >
-      <Callout title="Raydium write policy">
-        <p>
-          Every Raydium write is simulation-only unless <code>--live</code> is
-          supplied. Live writes additionally require{" "}
-          <code>SOLARD_ENABLE_LIVE_TRADES=1</code>.
-        </p>
-      </Callout>
+      <p>
+        <strong>Writes:</strong> simulation-only without <code>--live</code>.
+        Live writes also require <code>SOLARD_ENABLE_LIVE_TRADES=1</code>.
+      </p>
       <h2 id="swap">Quotes and swaps</h2>
       <CommandRef
         id="raydium-quote"

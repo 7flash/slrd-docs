@@ -1,19 +1,18 @@
-import { Callout, DocsPage } from "../../_components/docs";
+import { DocsPage } from "../../_components/docs";
 import { ApiRef } from "../../_components/reference";
 
 export default function SdkClientPage() {
   return (
     <DocsPage
-      eyebrow="SDK reference"
       title="Client methods"
-      description="Exact public Solard client surface exported by @solard/sdk, including wallet and token registry methods, holder/balance reads, market prices, and routed trading."
+      description="Public Solard client methods."
     >
       <h2 id="construction">Construction and lifecycle</h2>
       <ApiRef
         id="create-solard"
         name="createSolard(options?)"
         signature={`function createSolard(options: SolardOptions = {}): Solard\n\ntype SolardOptions = {\n  rpcUrl?: string;\n  dbPath?: string;\n  cacheTtlMs?: number;\n};`}
-        summary="Create the curated public client. No persistence is created merely by importing the module; construction happens when this function is called."
+        summary="Create the public Solard client. Importing the module alone does not create persistence."
         parameters={[
           {
             name: "rpcUrl",
@@ -38,7 +37,7 @@ export default function SdkClientPage() {
         id="create-trader-solard"
         name="createTraderSolard"
         signature="const createTraderSolard = createSolard"
-        summary="Compatibility/application alias for createSolard in @solard/sdk. It does not add extra trader-only methods."
+        summary="Alias for <code>createSolard</code>; no extra methods."
       />
       <ApiRef
         id="close"
@@ -48,13 +47,10 @@ export default function SdkClientPage() {
       />
 
       <h2 id="wallets">Wallet methods</h2>
-      <Callout title="Wallet secrets never appear in WalletInfo">
-        <p>
-          The public wallet result is limited to id, name, address, active
-          state, and timestamps. Encrypted secret-key material is not part of
-          the returned wallet object.
-        </p>
-      </Callout>
+      <p>
+        Wallet methods expose public metadata. Signing does not expose private
+        keys or raw signer objects.
+      </p>
       <ApiRef
         id="create-wallet"
         name="createWallet"
@@ -149,6 +145,10 @@ export default function SdkClientPage() {
         summary="List every stored wallet as public metadata without exposing encrypted-secret fields."
         returns="Array of WalletInfo."
       />
+      <p>
+        Do not cast <code>createSolard()</code> to expose core-only signers,
+        connections, or repositories.
+      </p>
 
       <h2 id="tokens">Token registry and account methods</h2>
       <ApiRef

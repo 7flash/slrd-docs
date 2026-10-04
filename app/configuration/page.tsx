@@ -1,11 +1,10 @@
-import { Callout, CodeBlock, DocsPage } from "../_components/docs";
+import { CodeBlock, DocsPage } from "../_components/docs";
 
 export default function ConfigurationPage() {
   return (
     <DocsPage
-      eyebrow="Environment"
       title="Configuration"
-      description="Runtime configuration used by the CLI and SDK: storage, wallet encryption, RPC limits, sender lanes, guarded live execution, lifecycle workers, metadata services, and venue-specific endpoints."
+      description="Environment variables and defaults."
     >
       <h2 id="storage-vault">Database and wallet vault</h2>
       <div className="table-wrap">
@@ -44,15 +43,6 @@ export default function ConfigurationPage() {
           </tbody>
         </table>
       </div>
-      <Callout title="SLRD_MASTER_KEY is an automation override, not a normal CLI requirement">
-        <p>
-          The CLI's interactive path is designed to unlock persisted signing
-          wallets for the current invocation without storing the password.
-          SDK/server automation that cannot prompt should provide{" "}
-          <code>SLRD_MASTER_KEY</code>.
-        </p>
-      </Callout>
-
       <h2 id="rpc">RPC and indexed history</h2>
       <div className="table-wrap">
         <table>
@@ -154,14 +144,9 @@ export default function ConfigurationPage() {
 # SOLWAL_ENABLE_LIVE_TRADES=1
 # SLRD_ENABLE_LIVE_TRADES=1`}</CodeBlock>
       <p>
-        This is the process-level master switch used by guarded execution
-        families such as Meteora, Raydium, durable transfer-many/reward
-        distribution flows, and other explicitly gated runtime paths. It is{" "}
-        <strong>not</strong> a universal switch around every direct SDK or CLI
-        send method: for example, the ordinary <code>slrd buy</code>,{" "}
-        <code>sell</code>, and <code>transfer</code> commands have their own
-        live-by-default semantics and use <code>--simulate-only</code> to avoid
-        submission.
+        Required by guarded flows such as Meteora and Raydium. It is not a
+        universal gate: <code>buy</code>, <code>sell</code>, and{" "}
+        <code>transfer</code> use their own execution semantics.
       </p>
 
       <h2 id="senders">Sender lanes</h2>
@@ -171,11 +156,8 @@ HELIUS_TIP_LAMPORTS=...
 HELIUS_PRIORITY_MICRO_LAMPORTS=...
 JITO_BLOCK_ENGINE_URL=https://mainnet.block-engine.jito.wtf`}</CodeBlock>
       <p>
-        Transaction APIs that accept a sender id can use paths such as{" "}
-        <code>rpc</code>, <code>helius</code>, and <code>jito</code>. The
-        required environment depends on the chosen sender.{" "}
-        <code>JITO_BLOCK_ENGINE_URL</code> is only needed when explicitly
-        selecting the separate Jito sender.
+        Sender ids include <code>rpc</code>, <code>helius</code>, and{" "}
+        <code>jito</code>. Configure only the lane you use.
       </p>
 
       <h2 id="web-console">Web console API</h2>
@@ -201,9 +183,8 @@ SOLARD_PUMP_REQUIRE_INTEREST_SIGNAL=false
 SOLARD_PUMP_INTEREST_WINDOW_MS=1800000
 SOLARD_PUMP_MIN_INTEREST_SCORE=0`}</CodeBlock>
       <p>
-        These settings control the primary Pump lifecycle worker's websocket
-        fan-out, tracked-token cap, refresh cadence, active window, curve
-        polling/repair, and optional interest-signal filter.
+        Controls Pump websocket fan-out, token caps, refresh/polling, active
+        windows, and optional interest filtering.
       </p>
 
       <h2 id="pumpswap-lifecycle">PumpSwap lifecycle</h2>

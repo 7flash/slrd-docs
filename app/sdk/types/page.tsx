@@ -3,17 +3,8 @@ import { OptionTable } from "../../_components/reference";
 
 export default function SdkTypesPage() {
   return (
-    <DocsPage
-      eyebrow="SDK reference"
-      title="Types & return values"
-      description="Important public types re-exported by @solard/sdk. These shapes explain what the client accepts and what durable market, holder, execution, replay, and payout operations return."
-    >
+    <DocsPage title="Types" description="Public SDK values and return types.">
       <h2 id="export-inventory">Complete public type inventory</h2>
-      <p>
-        The SDK root re-exports the following application-facing types. This
-        list reflects the supplied <code>packages/sdk/src/index.ts</code> rather
-        than the much larger <code>@solard/core</code> surface.
-      </p>
       <div className="table-wrap">
         <table>
           <thead>
@@ -87,19 +78,31 @@ export default function SdkTypesPage() {
                 <code>CumulativeDistributionState</code>
               </td>
             </tr>
-            <tr>
-              <td>Shared feed</td>
-              <td>
-                <code>LaunchFeedListener</code>, <code>PriceFeedClient</code>,{" "}
-                <code>PriceFeedCommand</code>, <code>PriceFeedLaunch</code>,{" "}
-                <code>PriceFeedListener</code>, <code>PriceFeedMessage</code>,{" "}
-                <code>PriceFeedPrice</code>, <code>PriceFeedStatus</code>,{" "}
-                <code>PriceFeedVenue</code>, <code>SharedPriceFeed</code>
-              </td>
-            </tr>
           </tbody>
         </table>
       </div>
+
+      <h2 id="subscription-types">Market subscription types</h2>
+      <p>
+        Subscription handles accept cancellation, expose <code>closed</code>/
+        <code>close()</code>, and token-aware streams support{" "}
+        <code>addTokens()</code>.
+      </p>
+      <CodeBlock language="ts">{`import {
+  subscribeLaunches,
+  subscribeMigrations,
+  subscribeTrades,
+  type TradeEvent,
+} from "@solard/sdk";`}</CodeBlock>
+      <p>
+        <code>TradeEvent</code> raw amount fields are <code>bigint</code>.
+        Launch events can expose <code>isMayhemMode</code>;
+        launch/migration/trade events expose the mint used by the promotion
+        flow.
+      </p>
+      <p>
+        Use the installed TypeScript declarations for exhaustive event fields.
+      </p>
 
       <h2 id="amounts">Amounts and quote assets</h2>
       <CodeBlock language="ts">{`type QuoteAsset =
@@ -113,21 +116,16 @@ sol(value: string | number): RawAmount;
 tokenAmount(value: string | number, mint: PublicKey, decimals: number, tokenProgram?): RawAmount;
 formatRaw(raw: bigint, decimals: number): string;`}</CodeBlock>
       <p>
-        <code>sol()</code> parses decimal SOL into lamports using nine decimals.{" "}
-        <code>tokenAmount()</code> parses a decimal token amount into raw units
-        for an explicit mint/decimals/token-program tuple. The parser rejects
-        non-decimal strings and values with more fractional digits than the
-        asset supports.
+        <code>sol()</code> converts SOL to lamports. <code>tokenAmount()</code>{" "}
+        converts UI token amounts to raw units. Excess precision is rejected.
       </p>
 
       <h2 id="refs">WalletRef and TokenRef</h2>
       <CodeBlock language="ts">{`type WalletRef = string | PublicKey | Keypair | WalletRow;
 type TokenRef = string | PublicKey | TokenRow;`}</CodeBlock>
       <p>
-        The curated SDK re-exports the reference types even though it does not
-        expose the underlying wallet/token repositories. In normal application
-        code, aliases, addresses/mints, or public key objects are the common
-        reference forms.
+        Common refs are aliases, addresses/mints, or <code>PublicKey</code>{" "}
+        objects.
       </p>
 
       <h2 id="wallet-info">WalletInfo</h2>
@@ -218,10 +216,8 @@ type SimulationResult = {
   solChanges: Array<...>;
 };`}</CodeBlock>
       <p>
-        Confirmed receipts can include the actual fee and compute units when
-        cluster transaction metadata makes them available. SimulationResult
-        includes balance deltas so callers can inspect expected
-        SOL/token/account effects before submission.
+        Receipts may include actual fee/CU data. Simulations include expected
+        account, token, and SOL deltas.
       </p>
 
       <h2 id="replay">Replay types</h2>
@@ -259,9 +255,8 @@ type ReplayTransaction = "mint" | "burn" | "transfer" | "change_owner" | "claim"
   updatedAtMs: number;
 };`}</CodeBlock>
       <p>
-        The durable state is intentionally richer than a list of transaction
-        signatures because restart/retry safety depends on reconciling pending
-        and confirmed payments.
+        State includes pending and confirmed payment data so distributions can
+        resume safely.
       </p>
     </DocsPage>
   );

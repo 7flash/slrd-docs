@@ -1,14 +1,12 @@
 export function DocsPage(props: {
-  eyebrow: string;
   title: string;
-  description: string;
+  description?: string;
   children: any;
 }) {
   return (
     <article className="doc">
-      <div className="eyebrow">{props.eyebrow}</div>
       <h1>{props.title}</h1>
-      <p className="lede">{props.description}</p>
+      {props.description ? <p className="lede">{props.description}</p> : null}
       {props.children}
     </article>
   );
@@ -30,43 +28,11 @@ export function CodeBlock(props: { language?: string; children: string }) {
   );
 }
 
-export function Callout(props: {
-  title: string;
-  tone?: "default" | "warn";
-  children: any;
-}) {
-  return (
-    <div className={`callout${props.tone === "warn" ? " warn" : ""}`}>
-      <div className="callout-title">{props.title}</div>
-      <div>{props.children}</div>
-    </div>
-  );
-}
-
 export function Method(props: { name: string; children: any }) {
   return (
     <div className="method">
-      <div className="method-name">{props.name}</div>
+      <code className="method-name">{props.name}</code>
       <div>{props.children}</div>
     </div>
-  );
-}
-
-export function Cards(props: { children: any }) {
-  return <div className="card-grid">{props.children}</div>;
-}
-
-export function Card(props: {
-  href: string;
-  label: string;
-  title: string;
-  children: any;
-}) {
-  return (
-    <a className="card" href={props.href}>
-      <span className="card-label">{props.label}</span>
-      <h3>{props.title}</h3>
-      <p>{props.children}</p>
-    </a>
   );
 }

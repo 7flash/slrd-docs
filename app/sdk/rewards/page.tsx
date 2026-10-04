@@ -1,12 +1,11 @@
-import { Callout, CodeBlock, DocsPage } from "../../_components/docs";
+import { CodeBlock, DocsPage } from "../../_components/docs";
 import { ApiRef } from "../../_components/reference";
 
 export default function SdkRewardsPage() {
   return (
     <DocsPage
-      eyebrow="SDK reference"
-      title="Claims & distributions"
-      description="The public SDK contains two durable payout primitives: creator-fee claims with stable reconciliation state, and cumulative entitlement distributions that remember confirmed payments across retries and restarts."
+      title="Claims & payouts"
+      description="Creator-fee claims and cumulative distributions."
     >
       <h2 id="creator-fees">Creator-fee claims</h2>
       <ApiRef
@@ -139,13 +138,10 @@ console.log(slrd.claims.creatorFees.status("creator-fees:epoch-42"));`}</CodeBlo
         summary="Read durable distribution state without planning or executing another payment."
       />
 
-      <Callout title="Use stable ids for resumable payouts">
-        <p>
-          A stable distribution or claim id is what makes persisted
-          reconciliation useful. Changing ids turns the same logical payout into
-          a new durable state namespace.
-        </p>
-      </Callout>
+      <p>
+        <strong>Stable IDs:</strong> reuse the same claim/distribution id to
+        resume and reconcile the same payout.
+      </p>
     </DocsPage>
   );
 }

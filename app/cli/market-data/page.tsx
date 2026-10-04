@@ -5,11 +5,14 @@ import { marketDataCommands } from "../../_data/cli";
 export default function CliMarketDataPage() {
   return (
     <DocsPage
-      eyebrow="CLI reference"
-      title="Market data & history"
-      description="Shared WebSocket feed, launch discovery, Pump discovery, price sampling, durable history backtests, transaction streams, and persisted execution history."
+      title="Market data"
+      description="Feeds, launch discovery, prices, history, backtests, and transaction streams."
     >
-      <h2 id="shared-feed">Shared feed and launch discovery</h2>
+      <h2 id="shared-feed">Feed service and launch discovery</h2>
+      <p>
+        <code>slrd feed serve</code> wraps live subscriptions in a shared
+        WebSocket service. SDK apps can use the subscriptions directly.
+      </p>
       {marketDataCommands.slice(0, 4).map((command) => (
         <CommandRef {...command} />
       ))}

@@ -1,12 +1,11 @@
-import { Callout, CodeBlock, DocsPage } from "../../_components/docs";
+import { CodeBlock, DocsPage } from "../../_components/docs";
 import { ApiRef } from "../../_components/reference";
 
 export default function SdkHistoryEventsPage() {
   return (
     <DocsPage
-      eyebrow="SDK reference"
-      title="History & events"
-      description="Neutral replay reconstructs ownership and claim events with explicit coverage. Market history materializes durable price/trade history. The public events API layers a pollable replay subscription over the same neutral history model."
+      title="History"
+      description="Durable replay, market history, coverage, and event streams."
     >
       <h2 id="replay">Neutral replay</h2>
       <ApiRef
@@ -64,16 +63,11 @@ export default function SdkHistoryEventsPage() {
         returns="MergedReplayEventStream."
       />
 
-      <Callout title="Public SDK events are replay events">
-        <p>
-          Core has additional typed token-stream helpers such as{" "}
-          <code>subscribeTokenEvents</code> and bounded token-event history, but
-          the curated <code>@solard/sdk</code> client intentionally exposes only
-          the replay-style callable <code>events()</code> API plus{" "}
-          <code>events.merge()</code>. The CLI's <code>slrd events</code>{" "}
-          command uses the broader core event surface.
-        </p>
-      </Callout>
+      <p>
+        <strong>Replay</strong> is for ordered, durable reconstruction.{" "}
+        <strong>Live subscriptions</strong> are for reacting to launches,
+        migrations, and trades.
+      </p>
 
       <h2 id="replay-item">Replay item shape</h2>
       <CodeBlock language="ts">{`type ReplayItem = {

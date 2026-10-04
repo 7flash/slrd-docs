@@ -6,22 +6,17 @@ export default function RootLayout({ children }: { children: any }) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta
-          name="description"
-          content="Solard documentation for the SDK, CLI, trading engine, event history, and Meteora automation."
-        />
-        <meta name="theme-color" content="#0a0d12" />
+        <meta name="description" content="Solard SDK and CLI documentation." />
+        <meta name="theme-color" content="#0b0e12" />
         <title>Solard Docs</title>
       </head>
       <body>
-        <div className="noise" />
         <header className="topbar">
           <a className="brand" href="/" aria-label="Solard docs home">
             <span className="brand-mark" aria-hidden="true">
               S
             </span>
             <span className="brand-text">Solard</span>
-            <span className="brand-tag">docs</span>
           </a>
           <div className="topbar-actions">
             <button
@@ -30,7 +25,7 @@ export default function RootLayout({ children }: { children: any }) {
               type="button"
               aria-label="Search documentation"
             >
-              <span>Search docs</span>
+              <span>Search</span>
               <kbd>/</kbd>
             </button>
             <button
@@ -67,10 +62,6 @@ export default function RootLayout({ children }: { children: any }) {
                 </section>
               ))}
             </nav>
-            <div className="sidebar-footer">
-              <span className="status-dot" />
-              <span>SDK · CLI · Core</span>
-            </div>
           </aside>
           <main className="main" id="main" tabIndex={-1}>
             {children}
@@ -90,14 +81,12 @@ export default function RootLayout({ children }: { children: any }) {
                 id="search-input"
                 type="search"
                 autoComplete="off"
-                placeholder="Search Solard docs…"
+                placeholder="Search docs"
               />
               <kbd>Esc</kbd>
             </div>
             <div className="search-results" id="search-results" />
-            <div className="search-hint">
-              Use ↑ ↓ to navigate · Enter to open
-            </div>
+            <div className="search-hint">↑ ↓ navigate · Enter open</div>
           </div>
         </dialog>
       </body>
